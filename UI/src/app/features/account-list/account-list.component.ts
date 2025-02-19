@@ -39,5 +39,26 @@ export class AccountListComponent {
         );
     }
 
+    public sortAccounts(column: keyof AccountSummary): void {
+        if (this.sortColumn === column) {
+            this.sortAscending = !this.sortAscending;
+        } else {
+            this.sortColumn = column;
+            this.sortAscending = true;
+        }
+
+        this.filteredAccounts.sort((a, b) => {
+            const valA = a[column];
+            const valB = b[column];
+
+            if (typeof valA === "number" && typeof valB === "number") {
+                return this.sortAscending ? valA - valB : valB - valA;
+            } else if (typeof valA === "string" && typeof valB === "string") {
+                return this.sortAscending ? valA.localeCompare(valB) : valB.localeCompare(valA);
+            }
+            return 0;
+        });
+    }
+
     
 }
