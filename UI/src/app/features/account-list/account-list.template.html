@@ -1,7 +1,21 @@
-<h1>Hello</h1>
-<ul>
-    <li ng-repeat="account in $ctrl.accounts">
-      <span>{{account.name}}</span>
-      <p>{{account.snippet}}</p>
-    </li>
-</ul>
+<h1>Bank Accounts</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Account Name</th>
+            <th>Owner Name</th>
+            <th>Created Date</th>
+            <th>Checking Amount</th>
+            <th>Savings Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="account in $ctrl.formattedAccounts">
+            <td>{{ account.accountName }}</td>
+            <td>{{ account.ownerName }}</td>
+            <td>{{ account.createdDate }}</td>
+            <td>{{ account.checkingAmount }}</td>
+            <td>{{ account.savingsAmount }}</td>
+        </tr>
+    </tbody>
+</table>
