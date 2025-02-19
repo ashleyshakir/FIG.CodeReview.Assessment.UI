@@ -14,35 +14,30 @@ export class AccountListComponent {
     };
 
     static $inject = ["accountService"];
-    accounts: AccountSummary[] = [];
-    formattedAccounts: {
-        accountId: number;
-        accountName: string;
-        ownerName: string;
-        createdDate: string;
-        checkingAmount: string;
-        savingsAmount: string;
-    }[] = [];
+    public accounts: AccountSummary[] = [];
+    public filteredAccounts: AccountSummary[] = [];
+    public searchQuery: string = "";
+    public sortColumn: keyof AccountSummary | null = null;
+    public sortAscending: boolean = true;
+
     
     constructor(private accountService: AccountService) {}
 
     $onInit(): void {
-        this.accountService.getAllAccounts().then((data => {
-            this.accounts = data;
-            this.formattedAccounts = data.map(account => ({
-                accountId: account.accountId,
-                accountName: account.accountName,
-                ownerName: account.ownerName,
-                createdDate: new Date(account.createdDate).toLocaleDateString("en-US"),
-                checkingAmount: new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD"
-                }).format(account.checkingAmount),
-                savingsAmount: new Intl.NumberFormat("en-US", {
-                    style: "currency",
-                    currency: "USD"
-                }).format(account.savingsAmount),
-            }));
-        }));
+        this.accountService.getAllAccounts().then((accounts) => {
+            this.accounts = accounts;
+            this.filteredAccounts = [...accounts];
+        })
     }
+
+    public filterAccounts(): void {
+        const query = this.searchQuery.toLowerCase();
+        this.filteredAccounts = this.accounts.filter((account) =>
+            Object.keys(account).some((key =>
+                account[key as keyof AccountSummary]?.toString().toLowerCase().includes(query)
+            ))
+        );
+    }
+
+    
 }

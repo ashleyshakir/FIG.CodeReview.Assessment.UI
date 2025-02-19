@@ -1,21 +1,24 @@
-<h1>Bank Accounts</h1>
-<table>
-    <thead>
-        <tr>
-            <th>Account Name</th>
-            <th>Owner Name</th>
-            <th>Created Date</th>
-            <th>Checking Amount</th>
-            <th>Savings Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="account in $ctrl.formattedAccounts">
-            <td>{{ account.accountName }}</td>
-            <td>{{ account.ownerName }}</td>
-            <td>{{ account.createdDate }}</td>
-            <td>{{ account.checkingAmount }}</td>
-            <td>{{ account.savingsAmount }}</td>
-        </tr>
-    </tbody>
-</table>
+<div>
+    <input type="text" ng-model="$ctrl.searchQuery" ng-change="$ctrl.filterAccounts()" placeholder="Search accounts..." />
+
+    <table>
+        <thead>
+            <tr>
+                <th ng-click="$ctrl.sortAccounts('accountName')">Account Name</th>
+                <th ng-click="$ctrl.sortAccounts('ownerName')">Owner Name</th>
+                <th ng-click="$ctrl.sortAccounts('createdDate')">Created Date</th>
+                <th ng-click="$ctrl.sortAccounts('checkingAmount')">Checking Amount</th>
+                <th ng-click="$ctrl.sortAccounts('savingsAmount')">Savings Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="account in $ctrl.filteredAccounts">
+                <td>{{ account.accountName }}</td>
+                <td>{{ account.ownerName }}</td>
+                <td>{{ account.createdDate | date:'MM-dd-yyyy' }}</td>
+                <td>{{ account.checkingAmount | currency }}</td>
+                <td>{{ account.savingsAmount | currency }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
