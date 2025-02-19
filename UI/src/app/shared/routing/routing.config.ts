@@ -12,5 +12,7 @@ function configFn($urlServiceProvider: UrlService, $locationProvider: ILocationP
     $urlServiceProvider.rules.when("/", "/home");
     $urlServiceProvider.rules.when("", "/home");
 
+    
+
     $locationProvider.html5Mode({ enabled: true, requireBase: false });
 }
