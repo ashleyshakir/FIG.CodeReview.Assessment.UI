@@ -1,6 +1,5 @@
 <div>
     <input type="text" ng-model="$ctrl.searchQuery" ng-change="$ctrl.filterAccounts()" placeholder="Search accounts..." />
-
     <table>
         <thead>
             <tr>
@@ -8,7 +7,8 @@
                 <th ng-click="$ctrl.sortAccounts('ownerName')">Owner Name</th>
                 <th ng-click="$ctrl.sortAccounts('createdDate')">Created Date</th>
                 <th ng-click="$ctrl.sortAccounts('checkingAmount')">Checking Amount</th>
-                <th ng-click="$ctrl.sortAccounts('savingsAmount')">Savings Amount</th>
+                <th ng-click="$ctrl.sortAccounts('savingsAmount')">Savings Amount</th>        
+                 <th>Actions</th>     
             </tr>
         </thead>
         <tbody>
@@ -18,7 +18,13 @@
                 <td>{{ account.createdDate | date:'MM-dd-yyyy' }}</td>
                 <td>{{ account.checkingAmount | currency }}</td>
                 <td>{{ account.savingsAmount | currency }}</td>
+                <td>
+                    <button ng-click="$ctrl.removeAccount(account.accountId)">
+                        Delete
+                    </button>                
+                </td>
             </tr>
         </tbody>
     </table>
+    
 </div>

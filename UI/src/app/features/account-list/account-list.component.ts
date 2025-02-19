@@ -60,5 +60,12 @@ export class AccountListComponent {
         });
     }
 
+    public removeAccount(accountId: number): void {
+        const isConfirmed = window.confirm("Are you sure you want to delete this account?");
+        if (isConfirmed) {
+            this.filteredAccounts = this.filteredAccounts.filter(account => account.accountId !== accountId);
+        } 
+    }
+
     
 }
