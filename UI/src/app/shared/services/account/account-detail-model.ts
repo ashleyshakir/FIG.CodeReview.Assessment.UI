@@ -18,3 +18,4 @@ export type AccountDetail = {
     ficoScore: number;
     activityTimeline: AccountActivity[];
 };
+

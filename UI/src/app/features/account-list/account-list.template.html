@@ -13,47 +13,54 @@
                class="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-yellow-500" />
     </div>
 
+    <div ng-if="$ctrl.isLoading" class="flex justify-center items-center min-h-screen">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-yellow-500"></div>
+    </div>
+    
     <!-- Account Table -->
-    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
-        <thead class="bg-gray-100">
-            <tr>
-                <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('accountName')">
-                    Account Name
-                </th>
-                <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('ownerName')">
-                    Owner Name
-                </th>
-                <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('createdDate')">
-                    Created Date
-                </th>
-                <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('checkingAmount')">
-                    Checking Amount
-                </th>
-                <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('savingsAmount')">
-                    Savings Amount
-                </th>
-                <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="account in $ctrl.filteredAccounts" class="border-t hover:bg-gray-50 transition-colors">
-                <td class="px-4 py-3 text-sm text-gray-700">{{ account.accountName }}</td>
-                <td class="px-4 py-3 text-sm text-gray-700">{{ account.ownerName }}</td>
-                <td class="px-4 py-3 text-sm text-gray-700">{{ account.createdDate | date:'MM-dd-yyyy' }}</td>
-                <td class="px-4 py-3 text-sm text-gray-700">{{ account.checkingAmount | currency }}</td>
-                <td class="px-4 py-3 text-sm text-gray-700">{{ account.savingsAmount | currency }}</td>
-                <td class="px-4 py-3 text-sm">
-                    <a class="text-black-500 hover:text-yellow-700" ui-sref="accountDetail({ accountId: account.accountId })">
-                        View Details
-                    </a>  
-                    <button class="text-red-500 hover:text-red-700 ml-2" ng-click="$ctrl.removeAccount(account.accountId)">
-                        Delete
-                    </button>                
-                </td>
-            </tr>
-        </tbody>
-    </table>
+     <div ng-if="!$ctrl.isLoading">
 
+        <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+            <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('accountName')">
+                        Account Name
+                    </th>
+                    <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('ownerName')">
+                        Owner Name
+                    </th>
+                    <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('createdDate')">
+                        Created Date
+                    </th>
+                    <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('checkingAmount')">
+                        Checking Amount
+                    </th>
+                    <th class="px-4 py-3 cursor-pointer text-left text-sm font-semibold text-gray-700" ng-click="$ctrl.sortAccounts('savingsAmount')">
+                        Savings Amount
+                    </th>
+                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="account in $ctrl.filteredAccounts" class="border-t hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ account.accountName }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ account.ownerName }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ account.createdDate | date:'MM-dd-yyyy' }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ account.checkingAmount | currency }}</td>
+                    <td class="px-4 py-3 text-sm text-gray-700">{{ account.savingsAmount | currency }}</td>
+                    <td class="px-4 py-3 text-sm">
+                        <a class="text-black-500 hover:text-yellow-700" ui-sref="accountDetail({ accountId: account.accountId })">
+                            View Details
+                        </a>  
+                        <button class="text-red-500 hover:text-red-700 ml-2" ng-click="$ctrl.removeAccount(account.accountId)">
+                            Delete
+                        </button>                
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+     </div>
+     
     <!-- Modal for Adding Account -->
     <add-account-component ng-if="$ctrl.isModalOpen" close-modal="$ctrl.closeModal()" class="mt-4"></add-account-component>
 </div>

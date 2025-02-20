@@ -22,6 +22,7 @@ export class AccountListComponent {
     public sortAscending: boolean = true;
 
     public isModalOpen: boolean = false;
+    public isLoading: boolean = true;
 
     constructor(private accountService: AccountService, private $state: any) {
         this.$state = $state;
@@ -32,12 +33,15 @@ export class AccountListComponent {
     }
 
     private loadAccounts(): void {
+        this.isLoading = true;
         this.accountService.getAllAccounts().then((accounts) => {
             console.log("Fetched accounts:", accounts);
             this.accounts = accounts;
             this.filteredAccounts = [...accounts];
         }).catch((error) => {
             console.error("Error fetching accounts:", error);
+        }).finally(() => {
+            this.isLoading = false;
         });
     }
 

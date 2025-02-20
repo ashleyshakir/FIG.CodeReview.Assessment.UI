@@ -7,7 +7,10 @@ export const accountDetailState: Ng1StateDeclaration = {
     component: `${AccountDetailComponent.componentName}`,
     resolve: {
         account: function(accountService, $stateParams) {
-          return accountService.getAccountDetailsByAccountId($stateParams.accountId);
+          return accountService.getAccountDetailsByAccountId($stateParams.accountId).catch(error => {
+            console.error("Error loading account details:", error);
+            return null;  // Or provide a fallback object
+        });
         }
       }
 };

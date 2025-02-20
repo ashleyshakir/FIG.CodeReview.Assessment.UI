@@ -14,6 +14,7 @@ export class AccountService {
 
     private accountSummaryList: AccountSummary[];
     private accountDetailList: AccountDetail[];
+    
     /** Generates a random number between 100 and 1000. */
     private getRandomDelayMilliseconds(): number {
         return Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
@@ -52,7 +53,7 @@ export class AccountService {
             });
     }
 
-    public getAccountDetailsByAccountId (accountId: number): IPromise<AccountDetail> {
+    public getAccountDetailsByAccountId(accountId: number): IPromise<AccountDetail> {
         console.log("Fetching account details for accountId:", accountId);
         console.log("accountDetailList:", this.accountDetailList);
 
@@ -60,12 +61,43 @@ export class AccountService {
             .then(() => {
                 const accountDetails = this.accountDetailList.find((account) => account.accountId === Number(accountId));
                 console.log("Found account details:", accountDetails);
+
                 if (accountDetails) {
+                    console.log("Found account details:", accountDetails);
                     return accountDetails;
                 } else {
-                    return this.$q.reject("Account not found for the given account ID.");
+                    console.log("Did not find account details:", accountDetails);
+
+                    const accountSummary = this.accountSummaryList.find((account) => account.accountId === Number(accountId));
+                    if (accountSummary) {
+                        return this.createFallbackAccountDetail(accountSummary);
+                    } else {
+                        return this.$q.reject("Account not found for the given account ID.");
+                    }
                 }
             });
+    }
+
+    /**
+     * Creates a fallback AccountDetail object with sensible defaults.
+     * @param accountSummary The account summary to base the fallback on.
+     * @returns A fallback AccountDetail object.
+     */
+    private createFallbackAccountDetail(accountSummary: AccountSummary): AccountDetail {
+        return {
+            accountId: accountSummary.accountId,
+            ownerId: accountSummary.ownerId,
+            accountName: accountSummary.accountName,
+            ownerName: accountSummary.ownerName,
+            checkingAmount: accountSummary.checkingAmount,
+            savingsAmount: accountSummary.savingsAmount,
+            createdDate: accountSummary.createdDate,
+            interestRate: accountSummary.interestRate,
+            status: accountSummary.status,
+            ownerBirthdate: "",
+            ficoScore: 0,
+            activityTimeline: [],
+        };
     }
 
     /**

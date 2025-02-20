@@ -1,4 +1,4 @@
-<div class="p-6 bg-gradient-to-r from-yellow-50 via-white to-gray-50 min-h-screen">
+<div ng-if="$ctrl.account" class="p-6 bg-gradient-to-r from-yellow-50 via-white to-gray-50 min-h-screen">
     <!-- Account Details Title -->
     <h1 class="text-3xl font-semibold text-gray-900 mb-6">
         {{ $ctrl.account.accountName }} - Account Details
@@ -9,8 +9,9 @@
         <!-- Account Info Section -->
         <div class="space-y-4">
             <p><strong class="font-semibold text-gray-700">Owner Name:</strong> {{ $ctrl.account.ownerName }}</p>
-            <p><strong class="font-semibold text-gray-700">Owner Age:</strong> {{ $ctrl.getOwnerAge($ctrl.account.ownerBirthdate) }} years</p>
-            <p><strong class="font-semibold text-gray-700">FICO Score:</strong> {{ $ctrl.account.ficoScore }}</p>
+            <!-- Hide Age and FICO Score if fallback account -->
+            <p ng-if="!$ctrl.isFallbackAccount()"><strong class="font-semibold text-gray-700">Owner Age:</strong> {{ $ctrl.getOwnerAge($ctrl.account.ownerBirthdate) }} years</p>
+            <p ng-if="!$ctrl.isFallbackAccount()"><strong class="font-semibold text-gray-700">FICO Score:</strong> {{ $ctrl.account.ficoScore }}</p>
         </div>
 
         <!-- Account Amounts Section -->
@@ -23,11 +24,14 @@
         <div class="space-y-4">
             <h3 class="text-xl font-semibold text-gray-900">Account Activity</h3>
             <ul class="space-y-2">
+                <!-- Show Activity Timeline if not empty -->
                 <li ng-repeat="activity in $ctrl.account.activityTimeline" class="flex items-center space-x-2">
                     <strong class="text-sm font-semibold text-gray-600">{{ activity.type | uppercase }}:</strong>
                     <span class="text-sm">{{ activity.amount | currency }} on {{ activity.date | date:'MM-dd-yyyy' }}</span>
                 </li>
             </ul>
+            <!-- Show message when activity timeline is empty -->
+            <p ng-if="$ctrl.account.activityTimeline.length === 0" class="text-sm text-gray-600">No recent activity</p>
         </div>
 
         <!-- Back Button -->
@@ -35,4 +39,9 @@
             Back to Account List
         </button>
     </div>
+</div>
+
+<!-- Error message if account is not available -->
+<div ng-if="!$ctrl.account">
+    <p>Account details are not available at the moment. Please try again later.</p>
 </div>

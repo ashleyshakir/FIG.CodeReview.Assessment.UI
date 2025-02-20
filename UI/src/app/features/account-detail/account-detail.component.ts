@@ -16,6 +16,7 @@ export class AccountDetailComponent {
     };
 
     static $inject = ["$state"];
+    account: any;
 
     constructor(private $state: StateService) {}
 
@@ -24,7 +25,7 @@ export class AccountDetailComponent {
     }
 
     getOwnerAge(birthdate: string): number {
-        if (!birthdate) return 0;
+        if (!birthdate || birthdate === "") return 0;
 
         const birthDateObj = new Date(birthdate);
         const currentDate = new Date();
@@ -38,5 +39,22 @@ export class AccountDetailComponent {
 
         return age;
     }
+
+    $onInit() {
+        if (!this.account) {
+            // Handle the case when account data is missing
+            this.showErrorMessage();
+        }
+    }
+
+    isFallbackAccount() {
+        return this.account.ownerBirthdate === "" && this.account.ficoScore === 0;
+    }
+
+    showErrorMessage() {
+        // You can display a specific error message or handle it however you like
+        console.error("Account details are unavailable.");
+    }
+
 
 }
