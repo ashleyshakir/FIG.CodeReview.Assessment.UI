@@ -51,4 +51,28 @@ export class AccountService {
                 }
             });
     }
+
+    /**
+     * Adds a new account to the system.
+     * @param account The account to be added.
+     * @returns A promise indicating whether the account was added successfully or an error occurred.
+     */
+    public async addAccount(account: AccountSummary): Promise<void> {
+        await this.$timeout(this.getRandomDelayMilliseconds());
+
+        // Validate the provided account data.
+        if (!account || !account.accountName || !account.ownerName) {
+            console.error('Invalid account data:', account);
+            return this.$q.reject('Account data is invalid.');
+        }
+
+        // If the account does not have an accountId, generate a new one by finding the next highest accountId.
+        if (!account.accountId) {
+            account.accountId = Math.max(...this.accountSummaryList.map(a => a.accountId)) + 1;
+        }
+
+        // Add the new account to the account summary list.
+        this.accountSummaryList.push(account);
+    }    
+    
 }

@@ -6,5 +6,10 @@ import "lodash";
 import "@uirouter/angularjs";
 
 export default angular
-    .module("app", ["ui.router", homeModule.name, accountListModule.name, sharedModule.name])
+    .module("app", [
+        "ui.router", 
+        homeModule.name, 
+        accountListModule.name, 
+        sharedModule.name
+    ])
     .name;

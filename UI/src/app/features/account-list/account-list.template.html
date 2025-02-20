@@ -1,5 +1,10 @@
 <div>
+    <button class="bg-blue-500 text-white px-4 py-2 rounded mb-4" ng-click="$ctrl.openModal()">
+        + Add Account
+    </button>
+
     <input type="text" ng-model="$ctrl.searchQuery" ng-change="$ctrl.filterAccounts()" placeholder="Search accounts..." />
+    
     <table>
         <thead>
             <tr>
@@ -26,5 +31,7 @@
             </tr>
         </tbody>
     </table>
+
+    <add-account-component ng-if="$ctrl.isModalOpen" close-modal="$ctrl.closeModal()"></add-account-component>
     
 </div>

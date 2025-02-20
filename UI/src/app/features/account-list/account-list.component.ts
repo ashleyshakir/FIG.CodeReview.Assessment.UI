@@ -14,20 +14,36 @@ export class AccountListComponent {
     };
 
     static $inject = ["accountService"];
+
     public accounts: AccountSummary[] = [];
     public filteredAccounts: AccountSummary[] = [];
     public searchQuery: string = "";
     public sortColumn: keyof AccountSummary | null = null;
     public sortAscending: boolean = true;
 
-    
+    public isModalOpen: boolean = false;
+
     constructor(private accountService: AccountService) {}
 
     $onInit(): void {
+        this.loadAccounts();
+    }
+    private loadAccounts(): void {
         this.accountService.getAllAccounts().then((accounts) => {
             this.accounts = accounts;
             this.filteredAccounts = [...accounts];
-        })
+        }).catch((error) => {
+            console.error("Error fetching accounts:", error);
+        });
+    }
+
+    public openModal(): void {
+        this.isModalOpen = true;
+    }
+
+    public closeModal(): void {
+        this.loadAccounts();
+        this.isModalOpen = false;
     }
 
     public filterAccounts(): void {
@@ -66,6 +82,4 @@ export class AccountListComponent {
             this.filteredAccounts = this.filteredAccounts.filter(account => account.accountId !== accountId);
         } 
     }
-
-    
 }
