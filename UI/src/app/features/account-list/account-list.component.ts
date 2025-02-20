@@ -13,7 +13,7 @@ export class AccountListComponent {
         bindings: {}
     };
 
-    static $inject = ["accountService"];
+    static $inject = ["accountService", "$state"];
 
     public accounts: AccountSummary[] = [];
     public filteredAccounts: AccountSummary[] = [];
@@ -23,13 +23,17 @@ export class AccountListComponent {
 
     public isModalOpen: boolean = false;
 
-    constructor(private accountService: AccountService) {}
+    constructor(private accountService: AccountService, private $state: any) {
+        this.$state = $state;
+    }
 
     $onInit(): void {
         this.loadAccounts();
     }
+
     private loadAccounts(): void {
         this.accountService.getAllAccounts().then((accounts) => {
+            console.log("Fetched accounts:", accounts);
             this.accounts = accounts;
             this.filteredAccounts = [...accounts];
         }).catch((error) => {
@@ -82,4 +86,10 @@ export class AccountListComponent {
             this.filteredAccounts = this.filteredAccounts.filter(account => account.accountId !== accountId);
         } 
     }
+
+    public goToAccountDetail(accountId: number): void {
+        console.log("Navigating to accountDetail with ID:", accountId);
+        this.$state.go('accountDetail', { accountId: accountId });
+    }
+    
 }

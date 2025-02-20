@@ -36,18 +36,33 @@ export class AccountService {
      * @param ownerId The ownerId associated with the accounts.
      * @returns A list of accounts associated with the ownerId provided.
      */
-    public getAccountDetails(ownerId: number): IPromise<AccountDetail[]> {
-        // Simulate an API call by introducing an artificial delay.
+    // public getAccountDetails(ownerId: number): IPromise<AccountDetail[]> {
+    //     // Simulate an API call by introducing an artificial delay.
+    //     return this.$timeout(this.getRandomDelayMilliseconds())
+    //         .then(() => {
+    //             const filteredAccounts = this.accountDetailList.filter((account) => {
+    //                 return account.ownerId === ownerId;
+    //             });
+
+    //             if (filteredAccounts.length > 0) {
+    //                 return filteredAccounts;
+    //             } else {
+    //                 return this.$q.reject("Accounts not found for the given owner ID.");
+    //             }
+    //         });
+    // }
+
+    public getAccountDetails(accountId: number): IPromise<AccountDetail> {
+        console.log("Fetching account details for accountId:", accountId);
+
         return this.$timeout(this.getRandomDelayMilliseconds())
             .then(() => {
-                const filteredAccounts = this.accountDetailList.filter((account) => {
-                    return account.ownerId === ownerId;
-                });
-
-                if (filteredAccounts.length > 0) {
-                    return filteredAccounts;
+                const accountDetails = this.accountDetailList.find((account) => account.accountId === accountId);
+                console.log("Found account details:", accountDetails);
+                if (accountDetails) {
+                    return accountDetails;
                 } else {
-                    return this.$q.reject("Accounts not found for the given owner ID.");
+                    return this.$q.reject("Account not found for the given account ID.");
                 }
             });
     }

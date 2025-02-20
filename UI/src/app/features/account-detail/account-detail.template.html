@@ -1,0 +1,12 @@
+<div>
+    <h2>Account Detail</h2>
+    <div ng-if="$ctrl.account">
+        <p><strong>Account Name:</strong> {{$ctrl.account.accountName}}</p>
+        <p><strong>Owner Name:</strong> {{$ctrl.account.ownerName}}</p>
+        <p><strong>Created Date:</strong> {{$ctrl.account.createdDate}}</p>
+        <!-- Add more account details here -->
+    </div>
+    <div ng-if="!$ctrl.account">
+        <p>Loading account details...</p>
+    </div>
+</div>
