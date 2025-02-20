@@ -3,6 +3,11 @@ import { Ng1StateDeclaration } from "@uirouter/angularjs";
 
 export const accountDetailState: Ng1StateDeclaration = {
     name: "accountDetail",
-    url: '/account/:accountId',
-    component: `${AccountDetailComponent.componentName}`
+    url: '/account/{accountId}',
+    component: `${AccountDetailComponent.componentName}`,
+    resolve: {
+        account: function(accountService, $stateParams) {
+          return accountService.getAccountDetails($stateParams.accountId);
+        }
+      }
 };

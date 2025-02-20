@@ -24,9 +24,9 @@
                 <td>{{ account.checkingAmount | currency }}</td>
                 <td>{{ account.savingsAmount | currency }}</td>
                 <td>
-                    <button ng-click="$ctrl.goToAccountDetail(account.accountId)">
+                    <a ui-sref="accountDetail({ accountId: account.accountId })">
                         View Details
-                    </button>
+                    </a>  
                     <button ng-click="$ctrl.removeAccount(account.accountId)">
                         Delete
                     </button>                

@@ -54,10 +54,11 @@ export class AccountService {
 
     public getAccountDetails(accountId: number): IPromise<AccountDetail> {
         console.log("Fetching account details for accountId:", accountId);
+        console.log("accountDetailList:", this.accountDetailList);
 
         return this.$timeout(this.getRandomDelayMilliseconds())
             .then(() => {
-                const accountDetails = this.accountDetailList.find((account) => account.accountId === accountId);
+                const accountDetails = this.accountDetailList.find((account) => account.accountId === Number(accountId));
                 console.log("Found account details:", accountDetails);
                 if (accountDetails) {
                     return accountDetails;

@@ -1,10 +1,8 @@
 import { IComponentOptions } from "angular";
 import template from "./account-detail.template.html";
 import "./account-detail.style.scss";
-import { AccountService } from "../../shared/services";
 import { AccountDetail } from  "../../shared/services";
-import { TransitionService } from "@uirouter/core";
-
+import { StateService } from "@uirouter/angularjs"
 
 
 export class AccountDetailComponent {
@@ -14,49 +12,24 @@ export class AccountDetailComponent {
         controllerAs: "$ctrl",
         template: template,
         bindings: {
+            account: "<"
         }
     };
 
-    static $inject = ["$transitions", "accountService"];
+    static $inject = ["$state"];
 
-    public account: AccountDetail | null = null;
+    constructor(private $state: StateService) {}
 
-    constructor(private $transitions: TransitionService, private accountService: AccountService) {}
-
-
-    $onInit(): void {    
-        console.log(this.$transitions);
-        this.$transitions.onBefore({ to: "accountDetail" }, (transition) => {
-            console.log("Before transition fired:", transition);
-        });
-
-        console.log("component initialized");
-        this.$transitions.onBefore({}, (transition) => {
-            console.log("Global Before transition fired:", transition);
-        });
-        this.$transitions.onSuccess({ to: "accountDetail" }, (transition) => {
-            console.log("Transition fired:", transition);
-            console.log("Transition params:", transition.params());
-            const accountId = transition.params().accountId;
-            console.log("Account ID from transition params:", accountId);
-            if (accountId) {
-                this.loadAccountDetails(accountId);
-            }
-        });
+    goBack() {
+        this.$state.go("accounts");
     }
+    
+    getOwnerAge(birthdate: string): number {
+        if (!birthdate) return 0;
 
-    private loadAccountDetails(accountId: number): void {
-        console.log("Loading account details for accountId:", accountId);
-
-        this.accountService.getAccountDetails(accountId)
-            .then((accountDetails) => {
-                console.log("Account details received:", accountDetails);
-                this.account = accountDetails;
-            })
-            .catch((error) => {
-                console.error("Error fetching account details:", error);
-            });
+        const birthYear = new Date(birthdate).getFullYear();
+        const currentYear = new Date().getFullYear();
+        return currentYear - birthYear;
     }
-
 
 }
