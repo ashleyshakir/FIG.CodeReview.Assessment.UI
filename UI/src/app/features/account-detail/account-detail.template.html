@@ -1,52 +1,38 @@
-<div class="account-details-container max-w-4xl mx-auto p-6">
-    <!-- Back Button -->
-    <div class="back-button mb-6">
-        <button class="btn bg-gray-300 text-black py-2 px-4 rounded-lg hover:bg-gray-400" ng-click="$ctrl.goBack()">Back to Account List</button>
-    </div>
+<div class="p-6 bg-gradient-to-r from-yellow-50 via-white to-gray-50 min-h-screen">
+    <!-- Account Details Title -->
+    <h1 class="text-3xl font-semibold text-gray-900 mb-6">
+        {{ $ctrl.account.accountName }} - Account Details
+    </h1>
 
-    <h1 class="account-title text-3xl font-semibold mb-6 text-gray-800">{{ $ctrl.account.accountName }} - Account Details</h1>
-
-    <div class="account-details bg-white p-6 rounded-lg shadow-lg">
+    <!-- Account Details Container -->
+    <div class="bg-white rounded-lg shadow-xl p-6 space-y-6">
         <!-- Account Info Section -->
-        <div class="account-info mb-6">
-            <p class="text-lg"><strong class="font-bold text-gray-700">Owner Name:</strong> {{ $ctrl.account.ownerName }}</p>
-            
-            <!-- Calculate Owner's Age -->
-            <p class="text-lg" ng-if="$ctrl.account.ownerBirthdate">
-                <strong class="font-bold text-gray-700">Owner Age:</strong> {{
-                    getOwnerAge($ctrl.account.ownerBirthdate)
-                }} years
-            </p>
-            <p class="text-lg" ng-if="!$ctrl.account.ownerBirthdate">
-                <strong class="font-bold text-gray-700">Owner Age:</strong> Not Available
-            </p>
-            
-            <!-- FICO Score -->
-            <p class="text-lg"><strong class="font-bold text-gray-700">Owner FICO Score:</strong> {{ $ctrl.account.ficoScore }}</p>
+        <div class="space-y-4">
+            <p><strong class="font-semibold text-gray-700">Owner Name:</strong> {{ $ctrl.account.ownerName }}</p>
+            <p><strong class="font-semibold text-gray-700">Owner Age:</strong> {{ $ctrl.getOwnerAge($ctrl.account.ownerBirthdate) }} years</p>
+            <p><strong class="font-semibold text-gray-700">FICO Score:</strong> {{ $ctrl.account.ficoScore }}</p>
         </div>
 
         <!-- Account Amounts Section -->
-        <div class="account-amounts mb-6">
-            <p class="text-lg"><strong class="font-bold text-gray-700">Checking Amount:</strong> {{ $ctrl.account.checkingAmount | currency }}</p>
-            <p class="text-lg"><strong class="font-bold text-gray-700">Savings Amount:</strong> {{ $ctrl.account.savingsAmount | currency }}</p>
+        <div class="space-y-4">
+            <p><strong class="font-semibold text-gray-700">Checking Amount:</strong> {{ $ctrl.account.checkingAmount | currency }}</p>
+            <p><strong class="font-semibold text-gray-700">Savings Amount:</strong> {{ $ctrl.account.savingsAmount | currency }}</p>
         </div>
 
         <!-- Account Activity Section -->
-        <div class="account-activity mb-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-3">Account Activity</h2>
-            <ul class="list-disc pl-5">
-                <li ng-repeat="activity in $ctrl.account.activityTimeline">
-                    <p class="text-sm text-gray-600">{{ activity.date | date:'MM-dd-yyyy' }} - 
-                        {{ activity.type | uppercase }}: {{ activity.amount | currency }}
-                    </p>
+        <div class="space-y-4">
+            <h3 class="text-xl font-semibold text-gray-900">Account Activity</h3>
+            <ul class="space-y-2">
+                <li ng-repeat="activity in $ctrl.account.activityTimeline" class="flex items-center space-x-2">
+                    <strong class="text-sm font-semibold text-gray-600">{{ activity.type | uppercase }}:</strong>
+                    <span class="text-sm">{{ activity.amount | currency }} on {{ activity.date | date:'MM-dd-yyyy' }}</span>
                 </li>
             </ul>
         </div>
 
-        <!-- Action Buttons -->
-        <div class="account-actions flex justify-between mt-6">
-            <button class="btn btn-primary bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600" ng-click="$ctrl.editAccount()">Edit Account</button>
-            <button class="btn btn-danger bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600" ng-click="$ctrl.removeAccount($ctrl.account.accountId)">Delete Account</button>
-        </div>
+        <!-- Back Button -->
+        <button class="bg-yellow-500 text-white px-6 py-2 rounded-md hover:bg-yellow-600 transition-colors" ng-click="$ctrl.goBack()">
+            Back to Account List
+        </button>
     </div>
 </div>

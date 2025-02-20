@@ -26,7 +26,7 @@ export class AddAccountComponent {
 
     constructor(private accountService: AccountService) {}
 
-    public addAccountHandler(): void {
+    public submitForm(): void {
         this.newAccount.createdDate = new Date().toISOString();
         this.accountService.addAccount(this.newAccount as AccountSummary)
             .then(() => {

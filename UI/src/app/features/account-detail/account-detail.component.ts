@@ -1,7 +1,6 @@
 import { IComponentOptions } from "angular";
 import template from "./account-detail.template.html";
 import "./account-detail.style.scss";
-import { AccountDetail } from  "../../shared/services";
 import { StateService } from "@uirouter/angularjs"
 
 
@@ -23,13 +22,21 @@ export class AccountDetailComponent {
     goBack() {
         this.$state.go("accounts");
     }
-    
+
     getOwnerAge(birthdate: string): number {
         if (!birthdate) return 0;
 
-        const birthYear = new Date(birthdate).getFullYear();
-        const currentYear = new Date().getFullYear();
-        return currentYear - birthYear;
+        const birthDateObj = new Date(birthdate);
+        const currentDate = new Date();
+
+        let age = currentDate.getFullYear() - birthDateObj.getFullYear();
+        const monthDifference = currentDate.getMonth() - birthDateObj.getMonth();
+        
+        if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < birthDateObj.getDate())) {
+            age -= 1;
+        }
+
+        return age;
     }
 
 }

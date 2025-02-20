@@ -36,23 +36,23 @@ export class AccountService {
      * @param ownerId The ownerId associated with the accounts.
      * @returns A list of accounts associated with the ownerId provided.
      */
-    // public getAccountDetails(ownerId: number): IPromise<AccountDetail[]> {
-    //     // Simulate an API call by introducing an artificial delay.
-    //     return this.$timeout(this.getRandomDelayMilliseconds())
-    //         .then(() => {
-    //             const filteredAccounts = this.accountDetailList.filter((account) => {
-    //                 return account.ownerId === ownerId;
-    //             });
+    public getAccountDetails(ownerId: number): IPromise<AccountDetail[]> {
+        // Simulate an API call by introducing an artificial delay.
+        return this.$timeout(this.getRandomDelayMilliseconds())
+            .then(() => {
+                const filteredAccounts = this.accountDetailList.filter((account) => {
+                    return account.ownerId === ownerId;
+                });
 
-    //             if (filteredAccounts.length > 0) {
-    //                 return filteredAccounts;
-    //             } else {
-    //                 return this.$q.reject("Accounts not found for the given owner ID.");
-    //             }
-    //         });
-    // }
+                if (filteredAccounts.length > 0) {
+                    return filteredAccounts;
+                } else {
+                    return this.$q.reject("Accounts not found for the given owner ID.");
+                }
+            });
+    }
 
-    public getAccountDetails(accountId: number): IPromise<AccountDetail> {
+    public getAccountDetailsByAccountId (accountId: number): IPromise<AccountDetail> {
         console.log("Fetching account details for accountId:", accountId);
         console.log("accountDetailList:", this.accountDetailList);
 

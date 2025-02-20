@@ -7,7 +7,7 @@ export const accountDetailState: Ng1StateDeclaration = {
     component: `${AccountDetailComponent.componentName}`,
     resolve: {
         account: function(accountService, $stateParams) {
-          return accountService.getAccountDetails($stateParams.accountId);
+          return accountService.getAccountDetailsByAccountId($stateParams.accountId);
         }
       }
 };
