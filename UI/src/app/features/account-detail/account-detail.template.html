@@ -1,0 +1,58 @@
+<div ng-if="$ctrl.account" class="p-10 bg-gradient-to-br from-gray-900 via-black to-gray-800 min-h-screen flex flex-col items-center">
+    <!-- Account Details Container -->
+    <div class="bg-gray-800 rounded-2xl shadow-lg p-8 w-full max-w-4xl text-white">
+        <!-- Account Title -->
+        <h1 class="text-3xl font-semibold text-white text-center mb-6">
+            {{ $ctrl.account.accountName }} - Account Details
+        </h1>
+
+        <!-- Account Info Grid -->
+        <div class="grid grid-cols-2 gap-6">
+            <!-- Owner Details -->
+            <div class="bg-gray-700 p-5 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-300 mb-2">Owner Information</h3>
+                <p><strong class="font-medium text-gray-400">Owner Name:</strong> {{ $ctrl.account.ownerName }}</p>
+                <p ng-if="!$ctrl.isFallbackAccount() && $ctrl.account.ownerBirthdate">
+                    <strong class="font-medium text-gray-400">Owner Age:</strong> {{ $ctrl.getOwnerAge($ctrl.account.ownerBirthdate) }} years
+                </p>
+                <p ng-if="!$ctrl.isFallbackAccount()">
+                    <strong class="font-medium text-gray-400">FICO Score:</strong> {{ $ctrl.account.ficoScore }}
+                </p>
+            </div>
+
+            <!-- Account Balances -->
+            <div class="bg-gray-700 p-5 rounded-xl shadow-md">
+                <h3 class="text-lg font-semibold text-gray-300 mb-2">Account Balances</h3>
+                <p><strong class="font-medium text-gray-400">Checking Amount:</strong> {{ $ctrl.account.checkingAmount | currency }}</p>
+                <p><strong class="font-medium text-gray-400">Savings Amount:</strong> {{ $ctrl.account.savingsAmount | currency }}</p>
+            </div>
+        </div>
+
+        <!-- Account Activity Section -->
+        <div class="bg-gray-700 p-5 rounded-xl shadow-md mt-6">
+            <h3 class="text-lg font-semibold text-gray-300 mb-4">Recent Activity</h3>
+            <ul class="space-y-4">
+                <li ng-repeat="activity in $ctrl.account.activityTimeline" class="flex items-center space-x-4">
+                    <div class="w-2 h-2 bg-[#7D6EAD] rounded-full"></div>
+                    <div class="flex flex-col">
+                        <span class="text-gray-400 text-sm font-medium">{{ activity.type | uppercase }}</span>
+                        <span class="text-white text-sm">{{ activity.amount | currency }} on {{ activity.date | date:'MM-dd-yyyy' }}</span>
+                    </div>
+                </li>
+            </ul>
+            <p ng-if="$ctrl.account.activityTimeline.length === 0" class="text-sm text-gray-400 text-center">No recent activity</p>
+        </div>
+
+        <!-- Back Button -->
+        <div class="flex justify-center mt-6">
+            <button class="bg-[#7D6EAD] text-white px-6 py-3 rounded-full hover:bg-[#6C5D99] transition" ng-click="$ctrl.goBack()">
+                Back to Account List
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Error Message -->
+<div ng-if="!$ctrl.account" class="flex flex-col items-center justify-center min-h-screen text-white">
+    <p class="text-lg">Account details are not available at the moment. Please try again later.</p>
+</div>

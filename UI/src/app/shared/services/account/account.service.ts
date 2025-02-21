@@ -14,6 +14,7 @@ export class AccountService {
 
     private accountSummaryList: AccountSummary[];
     private accountDetailList: AccountDetail[];
+    
     /** Generates a random number between 100 and 1000. */
     private getRandomDelayMilliseconds(): number {
         return Math.floor(Math.random() * (1000 - 100 + 1)) + 100;
@@ -51,4 +52,86 @@ export class AccountService {
                 }
             });
     }
+
+    /**
+     * Retrieves account details based on the given account ID.
+     * @param accountId The ID of the account to fetch details for.
+     * @returns A promise that resolves with the account details or rejects if not found.
+     */
+    public getAccountDetailsByAccountId(accountId: number): IPromise<AccountDetail> {
+        return this.$timeout(this.getRandomDelayMilliseconds())
+            .then(() => {
+                const accountDetails = this.accountDetailList.find((account) => account.accountId === Number(accountId));
+                if (accountDetails) {
+                    return accountDetails;
+                } else {
+                    const accountSummary = this.accountSummaryList.find((account) => account.accountId === Number(accountId));
+                    if (accountSummary) {
+                        return this.createFallbackAccountDetail(accountSummary);
+                    } else {
+                        return this.$q.reject("Account not found for the given account ID.");
+                    }
+                }
+            });
+    }
+
+    /**
+     * Creates a fallback AccountDetail object with sensible defaults.
+     * @param accountSummary The account summary to base the fallback on.
+     * @returns A fallback AccountDetail object.
+     */
+    private createFallbackAccountDetail(accountSummary: AccountSummary): AccountDetail {
+        return {
+            accountId: accountSummary.accountId,
+            ownerId: accountSummary.ownerId,
+            accountName: accountSummary.accountName,
+            ownerName: accountSummary.ownerName,
+            checkingAmount: accountSummary.checkingAmount,
+            savingsAmount: accountSummary.savingsAmount,
+            createdDate: accountSummary.createdDate,
+            interestRate: accountSummary.interestRate,
+            status: accountSummary.status,
+            ownerBirthdate: "",
+            ficoScore: 0,
+            activityTimeline: [],
+        };
+    }
+
+    /**
+     * Adds a new account to the system.
+     * @param account The account to be added.
+     * @returns A promise indicating whether the account was added successfully or an error occurred.
+     */
+    public async addAccount(account: AccountSummary): Promise<void> {
+        await this.$timeout(this.getRandomDelayMilliseconds());
+
+        // Validate the provided account data.
+        if (!account || !account.accountName || !account.ownerName) {
+            console.error('Invalid account data:', account);
+            return this.$q.reject('Account data is invalid.');
+        }
+
+        // If the account does not have an accountId, generate a new one by finding the next highest accountId.
+        if (!account.accountId) {
+            account.accountId = Math.max(...this.accountSummaryList.map(a => a.accountId)) + 1;
+        }
+
+        // Add the new account to the account summary list.
+        this.accountSummaryList.push(account);
+    }    
+    /**
+     * 
+     * Removes an account from the system.
+     * @param accountId The ID of the account to be deleted.
+     * @returns A promise indicating success or failure.
+     */
+    public async removeAccount(accountId: number): Promise<void> {
+        await this.$timeout(this.getRandomDelayMilliseconds());
+
+        // Filter out the account from the list
+        this.accountSummaryList = this.accountSummaryList.filter(account => account.accountId !== accountId);
+        this.accountDetailList = this.accountDetailList.filter(account => account.accountId !== accountId);
+    }
+
+    
 }
