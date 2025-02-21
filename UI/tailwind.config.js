@@ -7,7 +7,11 @@ module.exports = {
   content: ["./src/**/*.{html,js,ts}"],
   theme: {
     extend: {
-      spacing: extendedSpacing
+      spacing: extendedSpacing,
+      screens: {
+        'md': '960px',
+        'lg': '1280px',
+      }
     },
   },
   plugins: [],
