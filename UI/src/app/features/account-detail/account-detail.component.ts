@@ -42,7 +42,6 @@ export class AccountDetailComponent {
 
     $onInit() {
         if (!this.account) {
-            // Handle the case when account data is missing
             this.showErrorMessage();
         }
     }
@@ -52,7 +51,6 @@ export class AccountDetailComponent {
     }
 
     showErrorMessage() {
-        // You can display a specific error message or handle it however you like
         console.error("Account details are unavailable.");
     }
 

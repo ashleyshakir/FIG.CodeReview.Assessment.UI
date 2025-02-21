@@ -24,6 +24,9 @@ export class AccountListComponent {
     public isModalOpen: boolean = false;
     public isLoading: boolean = true;
 
+    public isDeleteModalOpen: boolean = false;
+    public accountToDelete: number | null = null;
+
     constructor(private accountService: AccountService, private $state: any) {
         this.$state = $state;
     }
@@ -35,8 +38,8 @@ export class AccountListComponent {
     private loadAccounts(): void {
         this.isLoading = true;
         this.accountService.getAllAccounts().then((accounts) => {
-            console.log("Fetched accounts:", accounts);
-            this.accounts = accounts;
+            this.accounts = accounts.sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime());
+
             this.filteredAccounts = [...accounts];
         }).catch((error) => {
             console.error("Error fetching accounts:", error);
@@ -84,15 +87,30 @@ export class AccountListComponent {
         });
     }
 
+    // Open the modal when attempting to delete an account
     public removeAccount(accountId: number): void {
-        const isConfirmed = window.confirm("Are you sure you want to delete this account?");
-        if (isConfirmed) {
-            this.filteredAccounts = this.filteredAccounts.filter(account => account.accountId !== accountId);
-        } 
+        this.accountToDelete = accountId;
+        this.isDeleteModalOpen = true;
     }
 
+    // Confirm delete action
+    public confirmDelete(): void {
+        if (this.accountToDelete !== null) {
+            this.filteredAccounts = this.filteredAccounts.filter(account => account.accountId !== this.accountToDelete);
+            this.accountToDelete = null;
+            this.isDeleteModalOpen = false;
+        }
+    }
+
+    // Cancel delete action
+    public cancelDelete(): void {
+        this.isDeleteModalOpen = false;
+        this.accountToDelete = null;
+    }
+    
+    
+
     public goToAccountDetail(accountId: number): void {
-        console.log("Navigating to accountDetail with ID:", accountId);
         this.$state.go('accountDetail', { accountId: accountId });
     }
     

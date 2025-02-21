@@ -98,5 +98,15 @@
     <add-account-component ng-if="$ctrl.isModalOpen" close-modal="$ctrl.closeModal()" class="mt-4"></add-account-component>
 </div>
 
+<!-- Delete Confirmation Modal -->
+<confirmation-modal 
+    is-open="$ctrl.isDeleteModalOpen" 
+    message="'Are you sure you want to delete this account?'" 
+    confirm-callback="$ctrl.confirmDelete()" 
+    cancel-callback="$ctrl.cancelDelete()">
+</confirmation-modal>
+
+
+
 
 
