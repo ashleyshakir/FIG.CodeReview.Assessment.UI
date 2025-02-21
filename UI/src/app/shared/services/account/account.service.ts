@@ -59,20 +59,12 @@ export class AccountService {
      * @returns A promise that resolves with the account details or rejects if not found.
      */
     public getAccountDetailsByAccountId(accountId: number): IPromise<AccountDetail> {
-        console.log("Fetching account details for accountId:", accountId);
-        console.log("accountDetailList:", this.accountDetailList);
-
         return this.$timeout(this.getRandomDelayMilliseconds())
             .then(() => {
                 const accountDetails = this.accountDetailList.find((account) => account.accountId === Number(accountId));
-                console.log("Found account details:", accountDetails);
-
                 if (accountDetails) {
-                    console.log("Found account details:", accountDetails);
                     return accountDetails;
                 } else {
-                    console.log("Did not find account details:", accountDetails);
-
                     const accountSummary = this.accountSummaryList.find((account) => account.accountId === Number(accountId));
                     if (accountSummary) {
                         return this.createFallbackAccountDetail(accountSummary);
