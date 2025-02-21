@@ -11,34 +11,48 @@
         <!-- Form -->
         <form ng-submit="$ctrl.submitForm()" class="space-y-6">
             <div class="space-y-5">
-                <label class="block text-lg font-medium text-gray-300 mb-2">Account Name</label>
-                <input type="text" ng-model="$ctrl.newAccount.accountName"
-                       class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                       required>
+                <!-- Account Name -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-300 mb-2">Account Name</label>
+                    <input type="text" ng-model="$ctrl.newAccount.accountName"
+                           class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#7D6EAD]"
+                           required>
+                </div>
 
-                <label class="block text-lg font-medium text-gray-300 mb-2">Owner Name</label>
-                <input type="text" ng-model="$ctrl.newAccount.ownerName"
-                       class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                       required>
+                <!-- Owner Name -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-300 mb-2">Owner Name</label>
+                    <input type="text" ng-model="$ctrl.newAccount.ownerName"
+                           class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#7D6EAD]"
+                           required>
+                </div>
 
-                <label class="block text-lg font-medium text-gray-300 mb-2">Checking Amount</label>
-                <input type="number" ng-model="$ctrl.newAccount.checkingAmount"
-                       class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                       required>
+                <!-- Checking Amount -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-300 mb-2">Checking Amount</label>
+                    <input type="number" ng-model="$ctrl.newAccount.checkingAmount"
+                           class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#7D6EAD]"
+                           required>
+                </div>
 
-                <label class="block text-lg font-medium text-gray-300 mb-2">Savings Amount</label>
-                <input type="number" ng-model="$ctrl.newAccount.savingsAmount"
-                       class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                       required>
+                <!-- Savings Amount -->
+                <div>
+                    <label class="block text-lg font-medium text-gray-300 mb-2">Savings Amount</label>
+                    <input type="number" ng-model="$ctrl.newAccount.savingsAmount"
+                           class="w-full px-5 py-3 border border-gray-700 rounded-full bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#7D6EAD]"
+                           required>
+                </div>
             </div>
 
             <!-- Modal Actions -->
             <div class="flex justify-end space-x-4 mt-6">
-                <button class="px-5 py-2 rounded-full bg-gray-600 text-white hover:bg-gray-700 transition"
+                <button type="button"
+                        class="px-5 py-2 rounded-full bg-gray-600 text-white hover:bg-gray-700 transition"
                         ng-click="$ctrl.closeModal()">
                     Cancel
                 </button>
-                <button class="px-5 py-2 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition">
+                <button type="submit"
+                        class="px-5 py-2 rounded-full bg-[#7D6EAD] text-white hover:bg-[#6C5D99] transition">
                     Save Account
                 </button>
             </div>
