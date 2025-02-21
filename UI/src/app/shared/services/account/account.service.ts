@@ -53,6 +53,11 @@ export class AccountService {
             });
     }
 
+    /**
+     * Retrieves account details based on the given account ID.
+     * @param accountId The ID of the account to fetch details for.
+     * @returns A promise that resolves with the account details or rejects if not found.
+     */
     public getAccountDetailsByAccountId(accountId: number): IPromise<AccountDetail> {
         console.log("Fetching account details for accountId:", accountId);
         console.log("accountDetailList:", this.accountDetailList);
@@ -122,5 +127,19 @@ export class AccountService {
         // Add the new account to the account summary list.
         this.accountSummaryList.push(account);
     }    
+    /**
+     * 
+     * Removes an account from the system.
+     * @param accountId The ID of the account to be deleted.
+     * @returns A promise indicating success or failure.
+     */
+    public async removeAccount(accountId: number): Promise<void> {
+        await this.$timeout(this.getRandomDelayMilliseconds());
+
+        // Filter out the account from the list
+        this.accountSummaryList = this.accountSummaryList.filter(account => account.accountId !== accountId);
+        this.accountDetailList = this.accountDetailList.filter(account => account.accountId !== accountId);
+    }
+
     
 }

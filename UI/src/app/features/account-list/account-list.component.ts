@@ -1,4 +1,4 @@
-import { IComponentOptions } from "angular";
+import { IComponentOptions, ITimeoutService } from "angular";
 import template from "./account-list.template.html";
 import "./account-list.style.scss";
 import { AccountService } from "../../shared/services";
@@ -13,7 +13,7 @@ export class AccountListComponent {
         bindings: {}
     };
 
-    static $inject = ["accountService", "$state"];
+    static $inject = ["accountService", "$state", "$timeout"];
 
     public accounts: AccountSummary[] = [];
     public filteredAccounts: AccountSummary[] = [];
@@ -27,7 +27,7 @@ export class AccountListComponent {
     public isDeleteModalOpen: boolean = false;
     public accountToDelete: number | null = null;
 
-    constructor(private accountService: AccountService, private $state: any) {
+    constructor(private accountService: AccountService, private $state: any, private $timeout: ITimeoutService) {
         this.$state = $state;
     }
 
@@ -39,7 +39,6 @@ export class AccountListComponent {
         this.isLoading = true;
         this.accountService.getAllAccounts().then((accounts) => {
             this.accounts = accounts.sort((a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime());
-
             this.filteredAccounts = [...accounts];
         }).catch((error) => {
             console.error("Error fetching accounts:", error);
@@ -87,27 +86,30 @@ export class AccountListComponent {
         });
     }
 
-    // Open the modal when attempting to delete an account
     public removeAccount(accountId: number): void {
         this.accountToDelete = accountId;
         this.isDeleteModalOpen = true;
     }
 
-    // Confirm delete action
     public confirmDelete(): void {
         if (this.accountToDelete !== null) {
-            this.filteredAccounts = this.filteredAccounts.filter(account => account.accountId !== this.accountToDelete);
-            this.accountToDelete = null;
-            this.isDeleteModalOpen = false;
+            this.accountService.removeAccount(this.accountToDelete).then(() => {
+                this.$timeout(() => {
+                    this.filteredAccounts = this.filteredAccounts.filter(account => account.accountId !== this.accountToDelete);
+                    this.accounts = this.accounts.filter(account => account.accountId !== this.accountToDelete);
+    
+                    this.accountToDelete = null;
+                    this.isDeleteModalOpen = false;
+                });
+            });
         }
     }
 
-    // Cancel delete action
     public cancelDelete(): void {
         this.isDeleteModalOpen = false;
         this.accountToDelete = null;
     }
-    
+
     
 
     public goToAccountDetail(accountId: number): void {
